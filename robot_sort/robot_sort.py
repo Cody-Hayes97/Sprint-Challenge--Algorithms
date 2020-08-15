@@ -93,11 +93,47 @@ class SortingRobot:
         return self._light == "ON"
 
     def sort(self):
+        # if I cant move right, then return 
+        if not self.can_move_right():
+            return
+        # loop through the list until i can no longer go right
+        while self.can_move_right():
+            
+            # compare 2 items to see if the held item is less than
+            if self.compare_item() == -1 or self.compare_item() == None:
+                # if held item is less, swap items and continue moving right
+                self.swap_item()
+                self.move_right()
+            else:
+                self.move_right()
+        
+        # loop through again until I can no longer go left
+        while self.can_move_left() and self.compare_item() != None:
+            # compare the items going left, this time seeing if the hel item is greater than the current position 
+            if self.compare_item() == 1:
+                # if it is , swap the items and go left
+                self.swap_item()
+                self.move_left()
+            else:
+                self.move_left()
+
+        # once we arrive at the left end side after both loops, swap the None with the currently held item
+        self.swap_item()
+        # we now know that the left most item is sorted, so move right after each run through of the loops
+        # so we can shorten the list
+        self.move_right()
+        # call our function again and restart the process from the next item to the right
+        self.sort()
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+       
+
+
+
+
+        
+        
 
 
 if __name__ == "__main__":
